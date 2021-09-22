@@ -26,10 +26,9 @@ RUN docker-php-ext-install curl && \
     docker-php-ext-install calendar && \
     docker-php-ext-install exif
 
-RUN libjpeg62-turbo-dev \
-    libpng-dev && \
-        docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg && \
-        docker-php-ext-install gd
+RUN apt-get --no-install-recommends install -y libjpeg62-turbo-dev libpng-dev \
+    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd
 
 # Enable apache modules
 RUN a2enmod rewrite headers
