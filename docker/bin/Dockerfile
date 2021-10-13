@@ -1,5 +1,6 @@
 FROM php:7.4.23-apache-buster
 
+ARG NODEJS_VERSION=16
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update --fix-missing
@@ -29,6 +30,12 @@ RUN docker-php-ext-install curl && \
 RUN apt-get --no-install-recommends install -y libjpeg62-turbo-dev libpng-dev \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd
+
+# nodejs & npm
+# get install script and pass it to execute:
+RUN curl -sL https://deb.nodesource.com/setup_$NODEJS_VERSION.x | bash
+# and install node
+RUN apt-get -y install nodejs
 
 # Enable apache modules
 RUN a2enmod rewrite headers
